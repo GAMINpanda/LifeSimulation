@@ -1,6 +1,6 @@
 master = document.getElementById("sim").getContext('2d')
 
-findOrganism=(aggro, x, y)=>{//looks for first case of organism in the radius
+export function findOrganism(aggro, x, y){//looks for first case of organism in the radius
     let values = "#000000"
     let yOriginal = y
     let xOriginal = x
@@ -62,7 +62,7 @@ checkOrganism=(x, y)=>{ //should check if an organism is at a certain point
     }
 }
 
-IterateTowardsOrganism=(x, y, organismAttacking)=>{//(x,y) of enemy organism
+export function IterateTowardsOrganism(x, y, organismAttacking){//(x,y) of enemy organism
     organismx = organismAttacking.x
     organismy = organismAttacking.y
 

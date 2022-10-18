@@ -1,8 +1,8 @@
 //logic.js handles the drawing of organisms and the organism class itself
 //Some inspiration from BrainXYZ's particle simulator
 
-import {organism} from "../OrganismClass";
-import {findOrganism, IterateTowardsOrganism} from "../CheckOrganism";
+import {organism} from "./OrganismClass.js";
+import {findOrganism, IterateTowardsOrganism} from "./CheckOrganism.js";
 
 master = document.getElementById("sim").getContext('2d')
 
@@ -56,6 +56,7 @@ update=()=>{ //updates frame
 
         draw(organisms[i].x, organisms[i].y, organisms[i].rgb, organisms[i].size)
     }
+    console.log("successfully updated")
     requestAnimationFrame(update)
 }
 

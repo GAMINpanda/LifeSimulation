@@ -1,4 +1,4 @@
-class organism{ //logic for class organism
+export class organism{ //logic for class organism
     constructor(rgb, x, y){
         //rgb string is hex format (#-_-_-_), (x,y) is just the starting coordinate
         this.redhex = rgb.substring(1,3)
