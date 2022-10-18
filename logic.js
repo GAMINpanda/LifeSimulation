@@ -4,24 +4,24 @@
 import {organism} from "./OrganismClass.js";
 import {findOrganism, IterateTowardsOrganism} from "./CheckOrganism.js";
 
-master = document.getElementById("sim").getContext('2d')
+var master = document.getElementById("sim").getContext('2d')
 
-draw=(x,y,colour,size)=>{
+function draw(x,y,colour,size){
     master.fillStyle = colour
     master.fillRect(x, y, size, size)
 }
 // ^ Draw each particle
 
-organisms = []
+var organisms = []
 // ^ Array holding all organisms
 
-random=()=>{
+function random(){
     return Math.random()*900 + 50
 }
 // random number (for location)
 
-create=(number, rgb)=>{
-    group=[]
+function create(number, rgb){
+    var group=[]
     for(let i=0; i< number; i++){
         group.push(new organism(rgb, Math.trunc(random()), Math.trunc(random())))
         organisms.push(group[i])
@@ -32,17 +32,17 @@ create=(number, rgb)=>{
 
 //Define particles below
 
-test = create(100, "#8051a8")
-test2 = create(100, "#04668c")
+var test = create(100, "#8051a8")
+var test2 = create(100, "#04668c")
 
 //Define particles above
 
 
-update=()=>{ //updates frame
+function update(){ //updates frame
     master.clearRect(0,0,1000,1000)
     draw(0,0, "black", 1000)
-    for(i=0; i<organisms.length; i++){
-        check = findOrganism(organisms[i].aggro * 10, organisms[i].x, organisms[i].y)
+    for(let i=0; i<organisms.length; i++){
+        var check = findOrganism(organisms[i].aggro * 10, organisms[i].x, organisms[i].y)
 
         if (check[0] != 0 && check[1] != 0 && check[2] != organisms[i].rgb){ //won't attack organisms of the same colour (for now)
             values = IterateTowardsOrganism(check[0], check[1], organisms[i])

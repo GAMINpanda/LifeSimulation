@@ -20,7 +20,7 @@ export class organism{ //logic for class organism
         this.hungertime = 1/avg //longer hunger time the lower the stats (less need to eat)
     }
 
-    update=(x, y)=>{ //updates x & y position
+    update(x, y){ //updates x & y position
         this.x = x
         this.y = y
     }

@@ -1,5 +1,3 @@
-master = document.getElementById("sim").getContext('2d')
-
 export function findOrganism(aggro, x, y){//looks for first case of organism in the radius
     let values = "#000000"
     let yOriginal = y
@@ -40,8 +38,8 @@ export function findOrganism(aggro, x, y){//looks for first case of organism in 
     return (0, 0, values[1])
 }
 
-checkOrganism=(x, y)=>{ //should check if an organism is at a certain point
-
+function checkOrganism(x, y){ //should check if an organism is at a certain point
+    master = document.getElementById("sim").getContext('2d')
     var data = master.getImageData(x, y, 1, 1).data;
 
     //code below from https://www.tutorialspoint.com/Get-pixel-color-from-canvas-with-HTML
