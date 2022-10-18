@@ -16,14 +16,17 @@ var organisms = []
 // ^ Array holding all organisms
 
 function random(){
-    return Math.random()*900 + 50
+    return Math.random()*50 + 25
 }
 // random number (for location)
 
 function create(number, rgb){
     var group=[]
     for(let i=0; i< number; i++){
-        group.push(new organism(rgb, Math.trunc(random()), Math.trunc(random())))
+        var a = Math.trunc(random())
+        var b = Math.trunc(random())
+        //console.log("a: ",a,"b:", b)
+        group.push(new organism(rgb, a, b))
         organisms.push(group[i])
     }
     return group
@@ -32,31 +35,41 @@ function create(number, rgb){
 
 //Define particles below
 
-var test = create(100, "#8051a8")
-var test2 = create(100, "#04668c")
+var test = create(10, "#8051a8")
+var test2 = create(10, "#7afbff")
 
 //Define particles above
 
 
 function update(){ //updates frame
-    master.clearRect(0,0,1000,1000)
-    draw(0,0, "black", 1000)
+    master.clearRect(0,0,100,100)
+    draw(0,0, "black", 100)
+    
     for(let i=0; i<organisms.length; i++){
-        var check = findOrganism(organisms[i].aggro * 10, organisms[i].x, organisms[i].y)
+        var valuesArray = findOrganism((organisms[i].aggro * 10) + 5, organisms[i].x, organisms[i].y) //definitely works
+        //returns in form 'return [x, y, output]'
 
-        if (check[0] != 0 && check[1] != 0 && check[2] != organisms[i].rgb){ //won't attack organisms of the same colour (for now)
-            values = IterateTowardsOrganism(check[0], check[1], organisms[i])
-            organisms[i].update(values[0], values[1])
+        if (valuesArray[0] != 0 && valuesArray[1] != 0){ //&& colour != organisms[i].rgb <== add to prevent movement towards same colour
+
+            /*
+            console.log(organisms[i].x, organisms[i].y)
+            console.log(valuesArray[0], valuesArray[1])
+            console.log("--------")
+            */
+
+            //console.log(valuesArray[0], valuesArray[1], valuesArray[2])
+            var valuesArray2 = IterateTowardsOrganism(valuesArray[0], valuesArray[1], organisms[i])
+            //console.log(valuesArray2[0], valuesArray2[1]);
+            organisms[i].update(valuesArray2[0], valuesArray2[1])
         }
+        
         /*
         else{//moves a random amount
             organisms[i].update(organisms[i].x + Math.trunc((Math.random() - 0.5) * 5), organisms[i].y + Math.trunc((Math.random() - 0.5) * 5))
         }
         */
-
         draw(organisms[i].x, organisms[i].y, organisms[i].rgb, organisms[i].size)
     }
-    console.log("successfully updated")
     requestAnimationFrame(update)
 }
 

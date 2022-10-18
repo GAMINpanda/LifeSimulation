@@ -1,3 +1,4 @@
+var master = document.getElementById("sim").getContext('2d')
 export class organism{ //logic for class organism
     constructor(rgb, x, y){
         //rgb string is hex format (#-_-_-_), (x,y) is just the starting coordinate
@@ -20,8 +21,12 @@ export class organism{ //logic for class organism
         this.hungertime = 1/avg //longer hunger time the lower the stats (less need to eat)
     }
 
-    update(x, y){ //updates x & y position
-        this.x = x
-        this.y = y
+    update(x, y){ //updates x & y position -- makes sure to keep within canvas
+        if (x < 100 && x> 0){
+            this.x = x
+        }
+        if (y < 100 && y > 0){
+            this.y = y
+        }
     }
 }
