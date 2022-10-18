@@ -1,4 +1,4 @@
-class organism{ //logic for class organism
+export class organism{ //logic for class organism
     constructor(rgb, x, y){
         //rgb string is hex format (#-_-_-_), (x,y) is just the starting coordinate
         this.redhex = rgb.substring(1,3)
@@ -20,7 +20,7 @@ class organism{ //logic for class organism
         this.hungertime = 1/avg //longer hunger time the lower the stats (less need to eat)
     }
 
-    update=(x, y)=>{ //updates x & y position
+    update(x, y){ //updates x & y position
         this.x = x
         this.y = y
     }
