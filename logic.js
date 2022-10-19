@@ -25,7 +25,6 @@ function create(number, rgb){
     for(let i=0; i< number; i++){
         var a = Math.trunc(random())
         var b = Math.trunc(random())
-        //console.log("a: ",a,"b:", b)
         group.push(new organism(rgb, a, b))
         organisms.push(group[i])
     }
@@ -35,8 +34,8 @@ function create(number, rgb){
 
 //Define particles below
 
-var test = create(10, "#8051a8")
-var test2 = create(10, "#7afbff")
+var test = create(5, "#8051a8")
+var test2 = create(5, "#7afbff")
 
 //Define particles above
 
@@ -46,29 +45,25 @@ function update(){ //updates frame
     draw(0,0, "black", 100)
     
     for(let i=0; i<organisms.length; i++){
-        var valuesArray = findOrganism((organisms[i].aggro * 10) + 5, organisms[i].x, organisms[i].y) //definitely works
+        var valuesArray = findOrganism((organisms[i].aggro * 10) + 5, organisms[i].x, organisms[i].y)
         //returns in form 'return [x, y, output]'
 
-        if (valuesArray[0] != 0 && valuesArray[1] != 0){ //&& colour != organisms[i].rgb <== add to prevent movement towards same colour
-
-            /*
-            console.log(organisms[i].x, organisms[i].y)
-            console.log(valuesArray[0], valuesArray[1])
-            console.log("--------")
-            */
-
-            //console.log(valuesArray[0], valuesArray[1], valuesArray[2])
+        if (valuesArray[0] != 0 && valuesArray[1] != 0){ //&& valuesArray[2] != organisms[i].rgb <== add to prevent movement towards same colour
             var valuesArray2 = IterateTowardsOrganism(valuesArray[0], valuesArray[1], organisms[i])
-            //console.log(valuesArray2[0], valuesArray2[1]);
             organisms[i].update(valuesArray2[0], valuesArray2[1])
         }
-        
         /*
         else{//moves a random amount
             organisms[i].update(organisms[i].x + Math.trunc((Math.random() - 0.5) * 5), organisms[i].y + Math.trunc((Math.random() - 0.5) * 5))
         }
         */
-        draw(organisms[i].x, organisms[i].y, organisms[i].rgb, organisms[i].size)
+       let xinput = organisms[i].x
+       let yinput = organisms[i].y
+       let colourinput = organisms[i].rgb
+       let sizeinput = organisms[i].size
+
+        //console.log("xinput: ",xinput,"yinput: ",yinput,"colourinput: ",colourinput,"sizeinput: ",sizeinput, "i: ",i)
+        draw(xinput, yinput, colourinput, sizeinput)
     }
     requestAnimationFrame(update)
 }
