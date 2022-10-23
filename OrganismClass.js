@@ -21,7 +21,7 @@ export class organism{ //logic for class organism
         this.hungertime = 1/avg //longer hunger time the lower the stats (less need to eat)
     }
 
-    update(x, y){ //updates x & y position -- makes sure to keep within canvas
+    NewCoords(x, y){ //updates x & y position -- makes sure to keep within canvas
         if (x < 100 && x> 0){
             this.x = x
         }

@@ -23,8 +23,19 @@ function random(){
 function create(number, rgb){
     var group=[]
     for(let i=0; i< number; i++){
+        /* //will make spawn random once I have verified the program works
         var a = Math.trunc(random())
         var b = Math.trunc(random())
+        */
+
+        var proceduraloffset = parseInt(rgb[1], 16)
+        //will not work with 
+
+        var a = (i*5) + proceduraloffset
+        var b = (i*5) + proceduraloffset
+
+        console.log("originalx: ",a,"originaly: ",b)
+
         group.push(new organism(rgb, a, b))
         organisms.push(group[i])
     }
@@ -35,7 +46,7 @@ function create(number, rgb){
 //Define particles below
 
 var test = create(5, "#8051a8")
-var test2 = create(5, "#7afbff")
+var test2 = create(5, "#1f81a2")
 
 //Define particles above
 
@@ -50,13 +61,14 @@ function update(){ //updates frame
 
         if (valuesArray[0] != 0 && valuesArray[1] != 0){ //&& valuesArray[2] != organisms[i].rgb <== add to prevent movement towards same colour
             var valuesArray2 = IterateTowardsOrganism(valuesArray[0], valuesArray[1], organisms[i])
-            organisms[i].update(valuesArray2[0], valuesArray2[1])
+
+            organisms[i].NewCoords(valuesArray2[0], valuesArray2[1])
         }
-        /*
+        
         else{//moves a random amount
-            organisms[i].update(organisms[i].x + Math.trunc((Math.random() - 0.5) * 5), organisms[i].y + Math.trunc((Math.random() - 0.5) * 5))
+            organisms[i].NewCoords(organisms[i].x + Math.trunc((Math.random() - 0.5) * 5), organisms[i].y + Math.trunc((Math.random() - 0.5) * 5))
         }
-        */
+        
        let xinput = organisms[i].x
        let yinput = organisms[i].y
        let colourinput = organisms[i].rgb
