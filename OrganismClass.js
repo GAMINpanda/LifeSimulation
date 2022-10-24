@@ -20,6 +20,8 @@ export class organism{ //logic for class organism
         this.life = Math.trunc(100 - (avg * 100)) + 1 //maximum lifespan is 100 seconds (lower stats = live longer)
         this.hungertime = (1/avg)//longer hunger time the lower the stats (less need to eat)
         this.isEaten = false
+        this.hasReproducedRecently = false
+        this.RecentReproductionCount = 1
     }
 
     NewCoords(x, y){ //updates x & y position -- makes sure to keep within canvas
@@ -36,6 +38,12 @@ export class organism{ //logic for class organism
 
     HungerCalc(){
         this.hungertime = this.hungertime - 0.01 //removes hunger every 'tick'
+        this.RecentReproductionCount = this.RecentReproductionCount - 0.01
+
+        if(this.RecentReproductionCount <= 0){
+            this.hasReproducedRecently = false
+            this.RecentReproductionCount = 1
+        }
 
         if (this.hungertime <= 0){
             this.rgb = "#525252"//nice grey - colour considered 'food' and can be eaten

@@ -40,11 +40,27 @@ function create(number, rgb){
     return group
 } //creates a number of organisms of a certain colour in random places
 
+function createAtCoords(rgb, x, y){
+    var group=[]
 
+    group.push(new organism(rgb, x, y))
+    organisms.push(group[0])
+    return group
+}
+
+function ParentsReproduce(colourParent1, colourParent2, x, y){ //will create a new particle as a 'child'
+    var intParent1 = parseInt(colourParent1.substring(1,6), 16)
+    var intParent2 = parseInt(colourParent2.substring(1,6), 16)
+
+    var hexChild = (intParent1 + intParent2) / 2
+    hexChild = hexChild + Math.trunc((Math.random()-0.5)*5) //random variation on result
+    var colourChild = hexChild.toString(16)
+    colourChild = "#" + colourChild
+    createAtCoords(colourChild, x, y)
+}
 //Define particles below
 
 var test = create(5, "#8051a8")
-var test2 = create(5, "#1f81a2")
 
 //Define particles above
 
@@ -67,21 +83,32 @@ function update(){ //updates frame
                                 console.log("An organism has been eaten")
                                 organisms[j].OrganismHasBeenEaten()
                                 organisms[i].Replenished(organisms[j].size)
-                                console.log("New hunger is: ",organisms[i].hungertime)
                             }
                         }
                     }
                 }
             }
+            var colourAsDecimal = parseInt((valuesArray[2].substring(1,6)), 16)
+            var friendlyrangeLow = colourAsDecimal - (5*organisms[i].aggro)
+            var friendlyrangehigh = colourAsDecimal + (5*organisms[i].aggro)
 
-            if (valuesArray[0] != 0 && valuesArray[1] != 0){ //&& valuesArray[2] != organisms[i].rgb <== add to prevent movement towards same colour
+            var organismColourAsDecimal = parseInt((organisms[i].rgb.substring(1,6)), 16)
+
+            if (valuesArray[0] != 0 && valuesArray[1] != 0 && (organismColourAsDecimal <= friendlyrangeLow || organismColourAsDecimal >= friendlyrangehigh)){
                 var valuesArray2 = IterateTowardsOrganism(valuesArray[0], valuesArray[1], organisms[i])
 
                 organisms[i].NewCoords(valuesArray2[0], valuesArray2[1])
             }
             
             else{//moves a random amount
-                organisms[i].NewCoords(organisms[i].x + Math.trunc((Math.random() - 0.5) * 5), organisms[i].y + Math.trunc((Math.random() - 0.5) * 5))
+                if(organismColourAsDecimal >= friendlyrangeLow && organismColourAsDecimal <= friendlyrangehigh && (organisms[i].hasReproducedRecently == false)){ //reproduce if in friendly range
+                    ParentsReproduce(organisms[i].rgb, valuesArray[2], organisms[i].x + 1, organisms[i].y + 1)
+                    organisms[i].hasReproducedRecently = true
+                    console.log("A child is born")
+                }
+                else{
+                    organisms[i].NewCoords(organisms[i].x + Math.trunc((Math.random() - 0.5) * 5), organisms[i].y + Math.trunc((Math.random() - 0.5) * 5))
+                }
             }
             
             let xinput = organisms[i].x
@@ -95,6 +122,9 @@ function update(){ //updates frame
         else{
             if (organisms[i].isEaten == false){
                 draw(organisms[i].x, organisms[i].y, "#525252", organisms[i].size)
+            }
+            else{//organism has no reason to exist
+                delete organisms[i]
             }
         }
     }
