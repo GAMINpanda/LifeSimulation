@@ -20,7 +20,7 @@ export class organism{ //logic for class organism
         this.life = Math.trunc(100 - (avg * 100)) + 1 //maximum lifespan is 100 seconds (lower stats = live longer)
         this.hungertime = (1/avg)//longer hunger time the lower the stats (less need to eat)
         this.isEaten = false
-        this.hasReproducedRecently = false
+        this.hasReproducedRecently = true
         this.RecentReproductionCount = 1
     }
 
