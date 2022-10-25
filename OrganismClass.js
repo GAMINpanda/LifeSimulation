@@ -18,10 +18,10 @@ export class organism{ //logic for class organism
 
         this.size = Math.trunc(avg * 5) + 1 //finds size of an organism (higher stats = larger)
         this.life = Math.trunc(100 - (avg * 100)) + 1 //maximum lifespan is 100 seconds (lower stats = live longer)
-        this.hungertime = (1/avg)//longer hunger time the lower the stats (less need to eat)
+        this.hungertime = (1/avg) * 3//longer hunger time the lower the stats (less need to eat) --> x3 to be a bit more generous
         this.isEaten = false
         this.hasReproducedRecently = true
-        this.RecentReproductionCount = 1
+        this.RecentReproductionCount = (1 / this.rr * 5) //5 times smaller initially to allow for a larger window to reproduce
     }
 
     NewCoords(x, y){ //updates x & y position -- makes sure to keep within canvas
@@ -38,11 +38,11 @@ export class organism{ //logic for class organism
 
     HungerCalc(){
         this.hungertime = this.hungertime - 0.01 //removes hunger every 'tick'
-        this.RecentReproductionCount = this.RecentReproductionCount - 0.01
+        this.RecentReproductionCount = this.RecentReproductionCount - 0.02
 
         if(this.RecentReproductionCount <= 0){
             this.hasReproducedRecently = false
-            this.RecentReproductionCount = 1
+            this.RecentReproductionCount = 1 / this.rr
         }
 
         if (this.hungertime <= 0){
@@ -51,7 +51,7 @@ export class organism{ //logic for class organism
     }
 
     Replenished(deadSize){
-        this.hungertime = this.hungertime + (deadSize * (this.size/5))
+        this.hungertime = this.hungertime + (deadSize * (5 / this.size))
     }
 
     OrganismHasBeenEaten(){

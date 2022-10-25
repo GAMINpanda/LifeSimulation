@@ -23,17 +23,15 @@ function random(){
 function create(number, rgb){
     var group=[]
     for(let i=0; i< number; i++){
-        /* //will make spawn random once I have verified the program works
         var a = Math.trunc(random())
         var b = Math.trunc(random())
-        */
+        
 
-        var proceduraloffset = parseInt(rgb[1], 16)
-        //will not work with 
-
+        //var proceduraloffset = parseInt(rgb[1], 16) //non-random spawning for debugging
+    /*
         var a = (i*5) + proceduraloffset
         var b = (i*5) + proceduraloffset
-
+    */
         group.push(new organism(rgb, a, b))
         organisms.push(group[i])
     }
@@ -57,9 +55,17 @@ function ParentsReproduce(colourParent1, colourParent2, x, y){ //will create a n
 }
 //Define particles below
 
-var test = create(5, "#8051a8")
-var test = create(5, "#1c9e49")
 
+for (let i=0; i < 10; i++){
+    let rand1 = (Math.trunc(Math.random()*255)).toString(16)
+    let rand2 = (Math.trunc(Math.random()*255).toString(16))
+    let rand3 = (Math.trunc(Math.random()*255).toString(16))
+
+    let randcolour = "#" + rand1 + rand2 + rand3
+    create(4, randcolour)
+}
+
+create(5, "#ffffff")//will die quick so just act as food
 //Define particles above
 
 
@@ -80,7 +86,7 @@ function update(){ //updates frame
 
                 if(valuesArray[2] == "#525252"){//found a dead pixel
                     if (organisms.length == 0){
-                        console.log("All particles are dead")
+                        console.log("All particles are eaten")
                         return false
                     }
                     else{
@@ -89,7 +95,6 @@ function update(){ //updates frame
                                 if (organisms[j].x >= valuesArray[0] && organisms[j].x <= valuesArray[0] + organisms[j].size){
                                     if (organisms[j].y >= valuesArray[1] && organisms[j].y <= valuesArray[1] + organisms[j].size){ //checks coords and colour
                                         //if here organisms[j] is probably the dead pixel
-                                        console.log("An organism has been eaten")
                                         organisms[j].OrganismHasBeenEaten()
                                         organisms[i].Replenished(organisms[j].size)
                                     }
@@ -111,7 +116,8 @@ function update(){ //updates frame
                 }
                 
                 else{//moves a random amount
-                    if(organismColourAsDecimal >= friendlyrangeLow && organismColourAsDecimal <= friendlyrangehigh && (organisms[i].hasReproducedRecently == false)){ //reproduce if in friendly range
+                    if(organismColourAsDecimal >= friendlyrangeLow && organismColourAsDecimal <= friendlyrangehigh && (organisms[i].hasReproducedRecently == false) && organisms.length < 200){ //reproduce if in friendly range
+                        //hard cap of 200 organisms (for now)
                         var newOrganism = ParentsReproduce(organisms[i].rgb, valuesArray[2], organisms[i].x + 1, organisms[i].y + 1)
                         if (newOrganism != undefined){
                             organisms.push(newOrganism)
